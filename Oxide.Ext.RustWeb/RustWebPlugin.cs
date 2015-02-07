@@ -20,11 +20,10 @@ namespace Oxide.Rust.Plugins
 
         private RustWeb rustWeb = null;
         private string oxideDataDir;
-        private bool serverInitialized = false;
 
         public RustWebPlugin() {
             Name = "rustweb";
-            Title = "RustWeb Glue for Oxide";
+            Title = "RustWeb glue for Oxide 2";
             Author = "dcode";
             Version = new VersionNumber(1, 1, 0);
             HasConfig = false;
@@ -40,7 +39,7 @@ namespace Oxide.Rust.Plugins
                 logger.Write(LogType.Error, "This version of RustWeb requires at least Oxide " + MinOxideVersion + " but this server is running Oxide " + Oxide.Core.OxideMod.Version + ".");
                 return;
             }
-            logger.Write(LogType.Info, "Initializing");
+            logger.Write(LogType.Info, "Initializing RustWeb");
 
             oxideDataDir = Interface.GetMod().DataDirectory;
             RootDir = Path.GetFullPath(Path.Combine(oxideDataDir, Path.Combine("..", "www")));
@@ -59,27 +58,28 @@ namespace Oxide.Rust.Plugins
 
         [HookMethod("OnServerInitialized")]
         private void OnServerInitialized() {
-            if (serverInitialized)
-                return;
-            serverInitialized = true;
-
-            if (RustWeb.Instance == null) {
-                logger.Write(LogType.Info, "Starting RustWeb " + RustWeb.Version.ToString(3) + ", serving from '" + RootDir + "' ...");
-                rustWeb = new RustWeb(RootDir, DataDir);
-                rustWeb.OnError += (sender, e) => {
-                    logger.WriteException("RustWeb error: " + e.Message, e.Exception);
-                };
-                rustWeb.Start();
-            } else {
-                logger.Write(LogType.Warning, "Reloading RustWeb has no effect. To update it, a server restart is inevitable.");
-                rustWeb = RustWeb.Instance;
-            }
         }
 
         [HookMethod("OnTick")]
         private void OnTick() {
-            if (rustWeb != null)
-                rustWeb.Tick();
+            if (rustWeb == null) {
+                if (RustWeb.Instance == null) {
+                    logger.Write(LogType.Info, "Starting RustWeb " + RustWeb.Version.ToString(3) + " on "+(string.IsNullOrEmpty(server.ip) ? "*" : server.ip)+":"+server.port+", serving from '" + RootDir + "' ...");
+                    rustWeb = new RustWeb(RootDir, DataDir);
+                    rustWeb.AddEnvironmentVersion("oxide", Oxide.Core.OxideMod.Version.ToString());
+                    rustWeb.OnLog += (sender, message) => {
+                        logger.Write(LogType.Info, "[RustWeb] {0}", message);
+                    };
+                    rustWeb.OnError += (sender, e) => {
+                        logger.WriteException("[RustWeb] ERROR: " + e.Message, e.Exception);
+                    };
+                    rustWeb.Start();
+                } else {
+                    logger.Write(LogType.Warning, "Reloading RustWeb has no effect. To update it, a server restart is inevitable.");
+                    rustWeb = RustWeb.Instance;
+                }
+            }
+            rustWeb.Tick();
         }
 
         [HookMethod("OnPlayerConnected")]
@@ -119,13 +119,21 @@ namespace Oxide.Rust.Plugins
 
         [HookMethod("cmdExport")]
         private void cmdExport(ConsoleSystem.Arg arg) {
-            if (arg.connection != null)
+            if (rustWeb == null) {
+                arg.ReplyWith("Server isn't initialized yet");
+                return;
+            }
+            if (rustWeb == null || arg.connection != null)
                 return; // Allow this only from (real) console as the server will most likely hang
             RconUtil.MapExport(arg, oxideDataDir);
         }
 
         [HookMethod("cmdMonuments")]
         private void cmdMonuments(ConsoleSystem.Arg arg) {
+            if (rustWeb == null) {
+                arg.ReplyWith("Server isn't initialized yet");
+                return;
+            }
             if (arg.connection != null)
                 return; // Allow this only from (real) console as the server will most likely hang
             RconUtil.MapMonuments(arg);
@@ -133,6 +141,10 @@ namespace Oxide.Rust.Plugins
 
         [HookMethod("cmdDumpObjects")]
         private void cmdDumpObjects(ConsoleSystem.Arg arg) {
+            if (rustWeb == null) {
+                arg.ReplyWith("Server isn't initialized yet");
+                return;
+            }
             if (arg.connection != null)
                 return; // Allow this only from (real) console as the server will most likely hang
             RconUtil.MapDumpGameObjects(arg);

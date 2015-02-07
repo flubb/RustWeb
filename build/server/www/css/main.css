@@ -110,7 +110,7 @@ label {
     border-radius: 10px;
     background-repeat: no-repeat;
 }
-#map #buildings, #map #landmarks, #map #grid {
+#map .layer {
     position: absolute;
     width: 1000px;
     height: 1000px;

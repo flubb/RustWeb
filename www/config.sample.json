@@ -1,7 +1,10 @@
 {
   "displayMonuments" : true,
   "displayBuildings" : false,
+  "displayMortality" : true,
 
   "welcomeMessage"   : "Hi {NAME}! To locate yourself, browse to: http://{IP}:{PORT}",
-  "broadcastDeaths"  : true
+  "broadcastDeaths"  : true,
+
+  "defaultLanguage"  : "en"
 }

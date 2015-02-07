@@ -1,0 +1,63 @@
+{
+	"name": "Português (BR)",
+	"author": "xShARkx",
+	"translations": {
+
+		"Procedural Map": "Mapa Procedural",
+		"Worldsize {WORLDSIZE}, Seed {SEED}": "Tamanho do mundo {WORLDSIZE}, Seed {SEED}",
+		"{NUM} / {MAX} players": "{NUM} / {MAX} jogadores",
+		"{NUM} sleepers": "{NUM} sleepers",
+		"Sign out": "Sair",
+		"Display:": "Exibir:",
+		"Landmarks": "Locais de interesse no mapa",
+		"Buildings": "Construções",
+		"Grid": "Grade",
+		"Filter by name...": "Filtrar por nome...",
+
+		"Wolf Monument": "Monumento do Lobo",
+		"Lighthouse": "Farol",
+		"Satellite Dish": "Antena de satélite",
+		"Cave": "Caverna",
+		"Radtown": "Cidade Radioativa",
+
+		"Allies": "Aliados",
+		"Recent players": "Jogadores que jogaram recentemente",
+		"Who shares their location?": "Quem compartilha sua localização?",
+		"You": "Você",
+		"They": "Eles",
+		"Mutually": "Mutuamente",
+
+		"Do you really want to SHARE your location with \"{NAME}\"?": "Você realmente quer COMPARTILHAR a sua localização com \"{NAME}\"?",
+		"Do you really want to NO LONGER SHARE your location with \"{NAME}\"?": "Você realmente quer PARAR DE COMPARTILHAR a sua localização com \"{NAME}\"?",
+		"Do you really want to MUTUALLY DELETE your connection to \"{NAME}\"?": "Você realmente quer MUTUAMENTE EXCLUIR a sua conexão com \"NAME\"?",
+		"Sorry, your browser does not support WebSockets. Please consider an upgrade to use RustWeb!": "Desculpe, mas seu navegador não suporta WebSockets. Por favor considere uma troca ou atualização de navegador para poder usar o RustWeb!",
+
+		"{YOU} just signed in": "{YOU} acabou de logar",
+		"{YOU} now share your location with {NAME}": "{YOU} agora compartilha a sua localização com {NAME}.",
+		"{YOU} no longer share your location with {NAME}": "{YOU} parou de compartilhar a sua localização com {NAME}.",
+		"{NAME} now shares their location with you": "{NAME} agora compartilham suas localizações com você.",
+		"{NAME} no longer shares their location with you": "{NAME} pararam de compartilhar suas localizações com você",
+		"{NAME} just woke up": "{NAME} acabou de acordar.",
+		"{NAME} fell asleep": "{NAME} acabou de cair no sono.",
+		"{NAME} says:": "{NAME} diz:",
+		"{NAME} spawned in the middle of nowhere": "{NAME} acabou de dar spawn no meio do nada.",
+
+		"{NAME} starved to death": "{NAME} morreu de fome.",
+		"{NAME} died of dehydration": "{NAME} morreu de sede.",
+		"{NAME} froze to death": "{NAME} morreu congelado.",
+		"{NAME} drowned": "{NAME} se afogou.",
+		"{NAME} burned to death": "{NAME} queimou até a morte.",
+		"{NAME} bled to death": "{NAME} sangrou até a morte.",
+		"{NAME} died of intoxication": "{NAME} morreu intoxicado.",
+		"{NAME} committed suicide": "{NAME} se suicidou.",
+		"{NAME} was shot": "{NAME} foi baleado.",
+		"{NAME} was slashed": "{NAME} foi cortado ao meio.",
+		"{NAME} died of a blunt trauma": "{NAME} morreu de um trauma sevéro.",
+		"{NAME} fell to death": "{NAME} caiu de um lugar alto e morreu.",
+		"{NAME} died of radiation": "{NAME} morreu por causa da radiação.",
+		"{NAME} was bitten to death": "{NAME} foi comido vivo por um animal.",
+		"{NAME} died": "{NAME} morreu",
+
+		"This is you!": "Esse é você!"
+	}
+}

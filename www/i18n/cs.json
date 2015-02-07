@@ -1,0 +1,63 @@
+{
+	"name": "Česky",
+	"author": "otrap",
+	"translations": {
+
+		"Procedural Map": "Procedural Map",
+		"Worldsize {WORLDSIZE}, Seed {SEED}": "Velikost {WORLDSIZE}, Seed {SEED}",
+		"{NUM} / {MAX} players": "{NUM} / {MAX} lidí",
+		"{NUM} sleepers": "{NUM} spících",
+   		"Sign out": "Odhlásit se",
+		"Display:": "Zobrazit:",
+		"Landmarks": "Monumenty",
+		"Buildings": "Budovy",
+		"Grid": "Mřížka",
+		"Filter by name...": "Filtrovat podle jména...",
+
+		"Wolf Monument": "Monument vlka",
+		"Lighthouse": "Maják",
+		"Satellite Dish": "Satelit",
+		"Cave": "Jeskyně",
+		"Radtown": "Radtown",
+
+		"Allies": "Spojenci",
+		"Recent players": "Poslední hráči",
+		"Who shares their location?": "Sdílení pozice",
+		"You": "Ty",
+		"They": "Oni",
+		"Mutually": "Vzájemně",
+
+		"Do you really want to SHARE your location with \"{NAME}\"?": "Opravdu chceš sdílet pozici s \"{NAME}\"?",
+		"Do you really want to NO LONGER SHARE your location with \"{NAME}\"?": "Opravdu nechceš sdílet pozici s \"{NAME}\"?",
+		"Do you really want to MUTUALLY DELETE your connection to \"{NAME}\"?": "Opravdu chceš smazat vzájemné sdílení pozice s {NAME}?",
+		"Sorry, your browser does not support WebSockets. Please consider an upgrade to use RustWeb!": "Promiň, tvůj prohlížeč nepodporuje WebSockets. Zvaž upgrade, pro použití RustWebu!",
+
+		"{YOU} just signed in": "{YOU} jsi přihlášen",
+		"{YOU} now share your location with {NAME}": "{YOU} nyní sdílíš pozici s {NAME}",
+		"{YOU} no longer share your location with {NAME}": "{YOU} už nesdílíš pozici s {NAME}",
+		"{NAME} now shares their location with you": "{NAME} nyní sdílí svou polohu s tebou",
+		"{NAME} no longer shares their location with you": "{NAME} přestal sdílet svou polohu s tebou",
+		"{NAME} just woke up": "{NAME} se připojil",
+		"{NAME} fell asleep": "{NAME} se odpojil",
+		"{NAME} says:": "{NAME} píše:",
+		"{NAME} spawned in the middle of nowhere": "{NAME} se spawnul uprostřed ničeho",
+
+		"{NAME} starved to death": "{NAME} zemřel hlady",
+		"{NAME} died of dehydration": "{NAME} zemřel na dehydrataci",
+		"{NAME} froze to death": "{NAME} zmrznul",
+		"{NAME} drowned": "{NAME} se utopil",
+		"{NAME} burned to death": "{NAME} shořel",
+		"{NAME} bled to death": "{NAME} vykrvácel",
+		"{NAME} died of intoxication": "{NAME} zemřel na otravu",
+		"{NAME} committed suicide": "{NAME} spáchal sebevraždu",
+		"{NAME} was shot": "{NAME} byl zastřelen",
+		"{NAME} was slashed": "{NAME} byl rozsekán",
+		"{NAME} died of a blunt trauma": "{NAME} byl umlácen",
+		"{NAME} fell to death": "{NAME} spadl a zemřel",
+		"{NAME} died of radiation": "{NAME} zemřel na radiaci",
+		"{NAME} was bitten to death": "{NAME} byl sežrán",
+		"{NAME} died": "{NAME} zemřel",
+
+		"This is you!": "To jsi ty!"
+	}
+}

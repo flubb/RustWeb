@@ -4,6 +4,7 @@ var config = {};                // config.json contents
 var server = {};                // status.json contents
 var iconSize = 20;              // landmark icon size
 var gridSize = 38.5;            // grid cell size
+var mortalityRes = gridSize/3;  // mortality map resolution
 var session = undefined;        // session data
 var locationUpdateRate = 5;     // location interpolations per second
 var allies = [];                // allies list (friends and shares)
@@ -18,7 +19,16 @@ var $recentlist  = $('#recentlist');
 var $buildings   = $('#buildings');
 var $landmarks   = $('#landmarks');
 var $grid        = $('#grid');
-var $layers      = $("#grid, #buildings, #landmarks");
+var $mortality   = $('#mortality');
+var $layers      = $("#map .layer");
+
+// Mortality heatmap
+var mortalityMap = h337.create({
+    container: document.getElementById("mortality"),
+    minOpacity: 0.0,
+    maxOpacity: 0.2,
+    radius: mortalityRes * 2
+});
 
 // Updates status specific content
 function updateStatus(cb) {
@@ -112,9 +122,47 @@ function updateBuildings(cb) {
             ctx.restore();
         });
         console.log("buildings updated");
-        if (cb) cb();
+        if (cb) cb(null);
     }).fail(function (xhr, err) {
         console.log("buildings update failed: " + err.message);
+        if (cb) cb(err);
+    });;
+}
+
+// Updates the mortality overlay
+function updateMortality() {
+    console.log("updating mortality ...");
+    $.getJSON("/deaths.json", function (data) {
+        var ddata = [],
+            totals = {},
+            key;
+        $.each(data, function (i, death) {
+            var pos = worldToMap(death),
+                cellX = (pos.x / mortalityRes) | 0,
+                cellY = (pos.y / mortalityRes) | 0;
+            ddata.push({
+                x: cellX * mortalityRes,
+                y: cellY * mortalityRes,
+                value: 1
+            });
+            key = cellX + "," + cellY;
+            if (typeof totals[key] === 'undefined')
+                totals[key] = 1;
+            else
+                totals[key]++;
+        });
+        var max = 1;
+        $.each(totals, function (k, v) {
+            if (v > max)
+                max = v;
+        });
+        mortalityMap.setData({
+            max: max,
+            data: ddata
+        });
+        console.log("mortality updated: max=" + max);
+    }).fail(function (xhr, err) {
+        console.log("mortality update failed: " + err.message);
     });;
 }
 
@@ -122,10 +170,14 @@ function updateBuildings(cb) {
 function updatePlayerLocation(data, isSleeper) {
     var loc, pos = worldToMap(data), rot = data.r, player;
     if (!locations.hasOwnProperty(data.id)) {
+        player = findRecent(data.id);
+        if (!player && typeof data.name === 'string' && data.name != data.id) {
+            player = addRecent(data.id, data.name);
+        }
         console.log("creating player " + data.id);
-        $landmarks.append(elem = $('<img class="player" alt="" id="player-'+data.id+'" />'));
-        elem.prop("src", '/img/' + (userId === data.id ? "self" : isShare(data.id) ? "ally" : "player") + '.png');
-        elem.prop("title", userId === data.id ? _("This is you!") : (player = findRecent(data.id)) ? player.name : data.id);
+        $landmarks.append(elem = $('<img class="player" alt="" id="player-' + data.id + '" />'));
+        elem.prop("title", userId === data.id ? _("This is you!") : player ? player.name : data.id);
+        elem.prop('src', "/img/player.png");
         elem.css({
             width: iconSize + "px",
             left: (pos.x - iconSize / 2) + "px",
@@ -133,21 +185,45 @@ function updatePlayerLocation(data, isSleeper) {
             transform: "rotate(" + rot + "deg)"
         });
         loc = locations[data.id] = {};
+        loc.id = data.id;
         loc.pos = [pos, pos];
         loc.rot = [rot, rot];
         loc.elem = elem;
         loc.dead = false;
+        loc.update = (function () {
+            if (this.dead || this.sleeping) {
+                this.elem.css({
+                    transform: "rotate(0deg)",
+                    zIndex: this.dead ? 101 : 100
+                });
+            } else {
+                this.elem.css({
+                    zIndex: userId == data.id ? 103 : 102
+                });
+            }
+            var img;
+            if (this.dead) {
+                img = "/img/dead.png";
+            } else if (this.sleeping) {
+                img = isShare(this.id) ? "/img/sleeper-ally.png" : "/img/sleeper.png";
+            } else if (userId == this.id) {
+                img = "/img/self.png";
+            } else if (isShare(this.id)) {
+                img = "/img/ally.png";
+            } else {
+                img = "/img/player.png";
+            }
+            if (this.elem.prop("src") != img)
+                this.elem.prop("src", img);
+        }).bind(loc);
     } else {
         loc = locations[data.id];
         loc.pos = [loc.pos[1], pos];
         loc.rot = [loc.rot[1], rot];
     }
+    loc.sleeping = !!isSleeper;
     loc.time = Date.now();
-}
-
-// Updates a single sleeper's location data
-function updateSleeperLocation(data) {
-    updatePlayerLocation(data, true);
+    loc.update();
 }
 
 // Finds the ally item for the specified user id
@@ -332,12 +408,18 @@ setInterval(function () {
     $.each(locations, function (id, loc) {
         var t = (now - loc.time) / 1000;
         if (t > 1) t = 1;
-        var pos = lerp(loc.pos[0], loc.pos[1], t);
-        loc.elem.css({
-            left: (pos.x - iconSize / 2) + "px",
-            top: (pos.y - iconSize / 2) + "px",
-            transform: "rotate(" + loc.rot[1] + "deg)"
-        });
+        if (loc.pos[1] != loc.pos[0]) {
+            var pos = lerp(loc.pos[0], loc.pos[1], t);
+            loc.elem.css({
+                left: (pos.x - iconSize / 2) + "px",
+                top: (pos.y - iconSize / 2) + "px"
+            });
+        }
+        if (!loc.dead && !loc.sleeping) {
+            loc.elem.css({
+                transform: "rotate(" + loc.rot[1] + "deg)"
+            });
+        }
     });
 }, 1000 / locationUpdateRate);
 
@@ -403,18 +485,27 @@ function connect() {
                 socket.send("hello");
                 break;
             case "session":
-                console.log("received session info: "+data._id);
+                console.log("received session info: " + data._id);
+                if (!data.name)
+                    data.name = findRecent(data.id);
                 session = data;
                 userId = data.id;
                 toggleCss("signedin", true);
-                $sessioninfo.text(session.name);
+                $sessioninfo.text(session.name ? session.name : _("You"));
                 notify(_("{YOU} just signed in", { "YOU": "<strong>"+_("You")+"</strong>" }));
                 updateAllies();
                 updateRecent();
-                if (session.owner && !config.displayBuildings) {
-                    toggleCss("displayBuildings", true);
-                    updateBuildings();
-                    setInterval(updateBuildings, 60000 * 5);
+                if (session.owner) {
+                    if (!config.displayBuildings) {
+                        toggleCss("displayBuildings", true);
+                        updateBuildings();
+                        setInterval(updateBuildings, 60000 * 5);
+                    }
+                    if (!config.displayMortality) {
+                        toggleCss("displayMortality", true);
+                        updateMortality();
+                        setInterval(updateMortality, 60000 * 5);
+                    }
                 }
                 break;
             case "friend.add":
@@ -460,10 +551,10 @@ function connect() {
                 }
                 break;
             case "l"/*ocation*/:
-                updatePlayerLocation(data);
+                updatePlayerLocation(data, false);
                 break;
             case "s"/*leeper location*/:
-                updateSleeperLocation(data);
+                updatePlayerLocation(data, true);
                 break;
             case "player.connect":
                 console.log("received player connect: " + data.id);
@@ -477,8 +568,9 @@ function connect() {
                     notify(_("{NAME} fell asleep", { "NAME": "<strong>" + escapeHtml(data.name) + "</strong>" }));
                 var loc = locations[data.id];
                 if (loc) {
-                    loc.elem.remove();
-                    delete locations[data.id];
+                    if (!loc.dead)
+                        loc.sleeping = true;
+                    loc.update();
                 }
                 break;
             case "player.chat":
@@ -491,6 +583,8 @@ function connect() {
                 var loc = locations[data.id];
                 if (loc) {
                     loc.dead = false;
+                    loc.sleeping = false;
+                    loc.update();
                 }
                 break;
             case "player.death":
@@ -499,6 +593,8 @@ function connect() {
                 var loc = locations[data.id];
                 if (loc) {
                     loc.dead = true;
+                    loc.sleeping = false;
+                    loc.update();
                 }
                 break;
             default:
@@ -523,31 +619,30 @@ function connect() {
 
 // Initializes the app
 function init() {
-    console.log("loading config ...");
-    $.getJSON("/config.json", function (data) {
-        config = data;
-        toggleCss("displayMonuments", !!config.displayMonuments);
-        toggleCss("displayBuildings", !!config.displayBuildings);
-        console.log("config loaded");
-        updateStatus(function () {
+    toggleCss("displayMonuments", !!config.displayMonuments);
+    toggleCss("displayBuildings", !!config.displayBuildings);
+    toggleCss("displayMortality", !!config.displayMortality);
+    updateStatus(function () {
 
-            // Refresh status every minute
-            setInterval(updateStatus, 60000);
+        // Refresh status every minute
+        setInterval(updateStatus, 60000);
 
-            // Update monuments once
-            if (config && config.displayMonuments)
-                updateMonuments();
+        // Connect a WebSocket for live updates
+        connect();
 
-            // Update buildings once, then every 5 minutes
-            if (config && config.displayBuildings)
-                updateBuildings(),
-                setInterval(updateBuildings, 60000 * 5);
+        // Update monuments once
+        if (config.displayMonuments)
+            updateMonuments();
 
-            // Connect a WebSocket for live updates
-            connect();
-        });
-    }).fail(function (xhr, err) {
-        console.log("loading config failed:", err);
+        // Update buildings once, then every 5 minutes
+        if (config.displayBuildings)
+            updateBuildings(),
+            setInterval(updateBuildings, 60000 * 5);
+
+        // Update mortality once, then every 5 minutes
+        if (config.displayMortality)
+            updateMortality(),
+            setInterval(updateMortality, 60000 * 5);
     });
 }
 
@@ -564,6 +659,10 @@ $(document).ready(function () {
     var buildingsCheckbox = $('#buildings-checkbox');
     buildingsCheckbox.change(function () {
         $buildings.css("display", buildingsCheckbox.is(":checked") ? "block" : "none");
+    });
+    var mortalityCheckbox = $('#mortality-checkbox');
+    mortalityCheckbox.change(function () {
+        $mortality.css("display", mortalityCheckbox.is(":checked") ? "block" : "none");
     });
     var gridCheckbox = $('#grid-checkbox');
     gridCheckbox.change(function () {
@@ -624,34 +723,46 @@ $(document).ready(function () {
         });
     });
 
-    console.log("loading languages ...");
-    var $langselect = $('#langselect');
-    $langselect.change(function () {
-        $.cookie('lang', $langselect.val());
-        document.location.href = document.location.href;
+    // Fix mortality layer positioning
+    $mortality.css({
+        position: "absolute"
     });
-    $.getJSON("/languages.json", function (data) {
-        var avail = [];
-        $langselect.empty();
-        $.each(data, function (i, l) {
-            avail.push(l.name + " (" + l.code + ")");
-            $langselect.append($('<option value="'+l.code+'" />').text(l.name+" ["+l.code+"]"));
+
+    console.log("loading config ...");
+    $.getJSON("/config.json", function (data) {
+        config = data || {};
+        console.log("config loaded");
+        console.log("loading languages ...");
+        var $langselect = $('#langselect');
+        $langselect.change(function () {
+            $.cookie('lang', $langselect.val());
+            document.location.href = document.location.href;
         });
-        $langselect.val('en');
-        console.log("available languages: " + avail.join(', '));
-        i18n.languages = data;
-        var lang = $.cookie('lang');
-        if (!lang || lang == "en")
-            init();
-        else
-            i18n.load(lang, function (err) {
-                if (!err)
-                    $langselect.val(lang);
-                init();
+        $.getJSON("/languages.json", function (data) {
+            var avail = [];
+            $langselect.empty();
+            $.each(data, function (i, l) {
+                avail.push(l.name + " (" + l.code + ")");
+                $langselect.append($('<option value="' + l.code + '" />').text(l.name + " [" + l.code + "]"));
             });
+            $langselect.val('en');
+            console.log("languages loaded: " + avail.join(', '));
+            i18n.languages = data;
+            var lang = $.cookie('lang') || config.defaultLanguage;
+            if (!lang || lang == "en")
+                init();
+            else
+                i18n.load(lang, function (err) {
+                    if (!err)
+                        $langselect.val(lang);
+                    init();
+                });
+        }).fail(function (xhr, err) {
+            console.log("loading languages failed:", err);
+            init();
+        });
     }).fail(function (xhr, err) {
-        console.log("loading languages failed:", err);
-        init();
+        console.log("loading config failed:", err);
     });
     onResize();
 });

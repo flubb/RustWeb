@@ -6,6 +6,18 @@
 
 [![Donate](https://raw.githubusercontent.com/dcodeIO/RustWeb/master/donate.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=dcode%40dcode.io&item_name=RustWeb)
 
+### Features include
+
+* Includes the map image generator that everyone loves
+* Interactive browser live map running on your server's ip and port
+* Locate yourself through Steam
+* Map layers include monuments, buildings, players, a simple grid and a mortality heat map
+* Share your location with allies
+* Broadcasts game events to the browser
+* Broadcasts death events to ingame chat (optional)
+* Simple web based JSON API to fetch lots of useful game data
+* Ships with a wide range of languages and it's easy to translate on your own
+
 Usage with your favorite modding framework
 ------------------------------------------
 The plugin is not limited to a specific modding framework by design. Instead, it uses a tiny bit of glue to load it into the modding framework of your choice.
@@ -28,6 +40,9 @@ contains your server's monuments data.
 
 * **/buildings.json** (requires authentication if `displayBuildings=false`)
 contains a list of all buildings on the map.
+
+* **/deaths.json** (requires authentication of `displayMortality=false`)
+contains a list of non-suicide death locations, delayed by 15 minutes.
 
 * **/players.json** (requires authentication)
 contains a list of all players currently connected including their locations.
@@ -53,11 +68,17 @@ specifies whether to display monuments to all players, making */monuments.json* 
 * **displayBuildings**
 specifies whether to display buildings to all players, making */buildings.json* public.
 
+* **displayMortality**
+specifies whether to enable the mortality heatmap for all players, making */deaths.json* public.
+
 * **welcomeMessage**
 specifies the welcome message displayed in game. Allows placeholders for `{IP}`, `{PORT}` and `{NAME]`. May be set to `null` to disable.
 
 * **broadcastDeaths**
 specifies whether to broadcast death events also in game.
+
+* **defaultLanguage**
+specifies the default language to use, by language code.
 
 RCON API
 --------

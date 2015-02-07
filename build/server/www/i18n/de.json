@@ -1,14 +1,15 @@
 {
 	"name": "Deutsch",
-	"author": "dcode",
 	"translations": {
 
 		"Procedural Map": "Prozedurale Karte",
 		"Worldsize {WORLDSIZE}, Seed {SEED}": "Kartengröße {WORLDSIZE}, Basiswert {SEED}",
 		"{NUM} / {MAX} players": "{NUM} / {MAX} Spielern",
 		"{NUM} sleepers": "{NUM} Schläfer",
+		"Sign out": "Abmelden",
 		"Display:": "Anzeige:",
 		"Landmarks": "Orientierungspunkte",
+		"Mortality": "Sterblichkeit",
 		"Buildings": "Gebäude",
 		"Grid": "Raster",
 		"Filter by name...": "Nach Name filtern...",
