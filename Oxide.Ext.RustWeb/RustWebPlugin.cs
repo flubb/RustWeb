@@ -64,9 +64,12 @@ namespace Oxide.Rust.Plugins
         private void OnTick() {
             if (rustWeb == null) {
                 if (RustWeb.Instance == null) {
-                    logger.Write(LogType.Info, "Starting RustWeb " + RustWeb.Version.ToString(3) + " on "+(string.IsNullOrEmpty(server.ip) ? "*" : server.ip)+":"+server.port+", serving from '" + RootDir + "' ...");
+                    logger.Write(LogType.Info, "Initializing RustWeb " + RustWeb.Version.ToString(3) + ", serving from '" + RootDir + "' ...");
                     rustWeb = new RustWeb(RootDir, DataDir);
                     rustWeb.AddEnvironmentVersion("oxide", Oxide.Core.OxideMod.Version.ToString());
+                    /* foreach (var plugin in Interface.GetMod().RootPluginManager.GetPlugins()) {
+                        rustWeb.AddEnvironmentVersion("oxide." + plugin.Name, plugin.Version.ToString());
+                    } */
                     rustWeb.OnLog += (sender, message) => {
                         logger.Write(LogType.Info, "[RustWeb] {0}", message);
                     };
@@ -104,6 +107,12 @@ namespace Oxide.Rust.Plugins
         private void OnPlayerChat(chat.Arg arg) {
             if (rustWeb != null)
                 rustWeb.OnPlayerChat(arg);
+        }
+
+        [HookMethod("OnPlayerAttack")]
+        private void OnPlayerAttack(BasePlayer attacker, HitInfo hitinfo) {
+            if (rustWeb != null)
+                rustWeb.OnPlayerAttack(attacker, hitinfo);
         }
 
         [HookMethod("OnEntityDeath")]

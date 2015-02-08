@@ -1,0 +1,62 @@
+{
+	"name": "Italiano",
+	"author": "ITAlbert",
+	"translations": {
+
+		"Procedural Map": "Mappa di procedimento",
+		"Worldsize {WORLDSIZE}, Seed {SEED}": "Grandezza del Mondo {WORLDSIZE}, Semi {SEED}",
+		"{NUM} / {MAX} players": "{NUM} / {MAX} Giocatori",
+		"{NUM} sleepers": "{NUM} Dormienti",
+		"Display:": "Mostra:",
+		"Landmarks": "Monumenti",
+		"Buildings": "Costruzioni",
+		"Grid": "Griglia",
+		"Filter by name...": "Filtra per nome...",
+
+		"Wolf Monument": "Statua del Lupo",
+		"Lighthouse": "Faro",
+		"Satellite Dish": "Antenna Parabolica",
+		"Cave": "Grotta",
+		"Radtown": "Città radioattiva",
+
+		"Allies": "Alleati",
+		"Recent players": "Giocatori recenti",
+		"Who shares their location?": "Chi condivide la sua posizione?",
+		"You": "Tu",
+		"They": "Loro",
+		"Mutually": "Insieme",
+
+		"Do you really want to SHARE your location with \"{NAME}\"?": "Vuoi condividere la tua posizione con \"{NAME}\"?",
+		"Do you really want to NO LONGER SHARE your location with \"{NAME}\"?": "Vuoi smettere di condividere la tua posizione con \"{NAME}\"?",
+		"Do you really want to MUTUALLY DELETE your connection to \"{NAME}\"?": "Vuoi chiudere reciprocamente la tua posizione con {NAME}?",
+		"Sorry, your browser does not support WebSockets. Please consider an upgrade to use RustWeb!": "Mi dispiace, il tuo Browser non supporta WebSockets. Prova con un altro",
+
+		"{YOU} just signed in": "{YOU} ti sei connesso",
+		"{YOU} now share your location with {NAME}": "{YOU} stai condividendo la tua posizione con {NAME}",
+		"{YOU} no longer share your location with {NAME}": "{YOU} non stai più condividendo la tua posizione con {NAME}",
+		"{NAME} now shares their location with you": "{NAME} sta condividendo la sua posizione con te",
+		"{NAME} no longer shares their location with you": "{NAME} non sta più condividendo la sua posizione con te",
+		"{NAME} just woke up": "{NAME} si è svegliato",
+		"{NAME} fell asleep": "{NAME} sta dormendo",
+		"{NAME} says:": "{NAME} dice:",
+		"{NAME} spawned in the middle of nowhere": "{NAME} è apparso da qualche parte",
+
+		"{NAME} starved to death": "{NAME} è morto di fame",
+		"{NAME} died of dehydration": "{NAME} è morto di sete",
+		"{NAME} froze to death": "{NAME} è morto congelato",
+		"{NAME} drowned": "{NAME} è morto annegato",
+		"{NAME} burned to death": "{NAME} è morto bruciato",
+		"{NAME} bled to death": "{NAME} è morto dissanguato",
+		"{NAME} died of intoxication": "{NAME} è morto per intossicazione",
+		"{NAME} committed suicide": "{NAME} si è suicidato",
+		"{NAME} was shot": "{NAME} è stato colpito",
+		"{NAME} was slashed": "{NAME} è stato pugnalato",
+		"{NAME} died of a blunt trauma": "{NAME} è morto traumatizzato",
+		"{NAME} fell to death": "{NAME} è morto cadendo da un'altura",
+		"{NAME} died of radiation": "{NAME} è morto per radiazioni",
+		"{NAME} was bitten to death": "{NAME} è stato squartato da un animale",
+		"{NAME} died": "{NAME} è morto",
+
+		"This is you!": "Questo sei tu!"
+	}
+}

@@ -1,10 +1,26 @@
 {
-  "displayMonuments" : true,
-  "displayBuildings" : false,
-  "displayMortality" : true,
+  "--- Map settings --------------------------------------------------------------------------":"",
+
+  "displayMonuments" : true,       "whether to display monuments to all players"               :"",
+  "displayBuildings" : false,      "whether to display buildings to all players"               :"",
+  "displayMortality" : true,       "whether to display the mortality heat map to all players"  :"",
+  "defaultLanguage"  : "en",       "default language used for the web interface"               :"",
+
+  "--- Optional ingame settings --------------------------------------------------------------":"",
 
   "welcomeMessage"   : "Hi {NAME}! To locate yourself, browse to: http://{IP}:{PORT}",
-  "broadcastDeaths"  : true,
 
-  "defaultLanguage"  : "en"
+                                 "^ Welcome message sent to players in game (\n = line break)" :"",
+  "broadcastDeaths"  : false,      "whether to broadcast death events to the ingame chat"      :"",
+                                   "  default is false: does not broadcast to the ingame chat" :"",
+  "friendlyfireOff"  : false,      "whether to prevent players from hurting friends"           :"",
+                                   "  default is false: game default, you can hurt friends"    :"",
+
+  "--- Optional webserver settings ------------------------------------------------------------":"",
+
+  "webConsole"       : false,      "whether to enable the web based rcon console for admins"   :"",
+  "ipOverride"       : null,       "override for the webserver's ip address"                   :"",
+                                   "  defaults to use the game server's ip address if not set" :"",
+  "portOverride"     : null,       "override for the webserver's port"                         :"",
+                                   "  defaults to use the game server's port if not set"       :""
 }

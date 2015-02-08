@@ -22,4 +22,4 @@ xcopy /S /I /Y %OxideDir%\* %ServerDir%\
 copy /Y %OxideDir%\RustDedicated_Data\Managed\Oxide.Core.dll %OxidePatcherDir%\Oxide.Core.dll
 
 :: Run patcher
-start /D %OxidePatcherDir% /wait OxidePatcher.exe RustExperimental.opj
+start /D %OxidePatcherDir% /wait OxidePatcher.exe Rust.opj -p  %ServerDir%\RustDedicated_Data\Managed

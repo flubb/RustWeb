@@ -1,0 +1,67 @@
+﻿body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+body {
+    background: #000;
+    color: #999;
+}
+
+/* General */
+#log {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    font-family: monospace;
+    box-sizing: border-box;
+    padding: 8px;
+    overflow: auto;
+    border-bottom: 1px solid #222;
+}
+#log hr {
+    border: 0;
+    height: 0;
+    border-top: 1px solid #333;
+}
+#wrap {
+    white-space: pre-wrap;
+}
+
+/* Log types */
+#log .console {
+    color: #0094ff;
+    display: block;
+}
+#log .log {
+    color: #fff;
+}
+#log .warning {
+    color: #ffd800;
+}
+#log .error, #log .exception {
+    color: #ff0000;
+}
+#log .stack {
+    padding-left: 10px;
+}
+
+/* Input */
+#input {
+    border: 0;
+    border-top: 1px solid #111;
+    width: 100%;
+    background: #333;
+    color: #fff;
+    font-family: monospace;
+    padding: 5px 5px 5px 10px;
+    box-sizing: border-box;
+    font-weight: bold;
+    outline: none;
+    height: 28px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}

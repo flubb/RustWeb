@@ -3,9 +3,10 @@ Dependencies/
 Tools/
 bin/
 obj/
-Oxide.Ext.RustWeb/Dependencies/
-Oxide.Ext.RustWeb/bin/
-Oxide.Ext.RustWeb/obj/
 raw/
 src/
 lib/
+Oxide.Ext.RustWeb/Dependencies/
+Oxide.Ext.RustWeb/bin/
+Oxide.Ext.RustWeb/obj/
+Pluton.RustWeb/Dependencies/

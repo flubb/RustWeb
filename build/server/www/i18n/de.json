@@ -1,5 +1,6 @@
 {
 	"name": "Deutsch",
+	"author": "dcode",
 	"translations": {
 
 		"Procedural Map": "Prozedurale Karte",
@@ -7,6 +8,7 @@
 		"{NUM} / {MAX} players": "{NUM} / {MAX} Spielern",
 		"{NUM} sleepers": "{NUM} Schläfer",
 		"Sign out": "Abmelden",
+		"Open console": "Konsole öffnen",
 		"Display:": "Anzeige:",
 		"Landmarks": "Orientierungspunkte",
 		"Mortality": "Sterblichkeit",

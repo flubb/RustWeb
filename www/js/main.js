@@ -491,6 +491,7 @@ function connect() {
                 session = data;
                 userId = data.id;
                 toggleCss("signedin", true);
+                toggleCss("owner", session.owner);
                 $sessioninfo.text(session.name ? session.name : _("You"));
                 notify(_("{YOU} just signed in", { "YOU": "<strong>"+_("You")+"</strong>" }));
                 updateAllies();
@@ -608,6 +609,7 @@ function connect() {
             connect();
         }, 20000);
         toggleCss("signedin", false);
+        toggleCss("owner", false);
         $sessionfinfo.text("Not logged in");
         delete connect.socket;
         cleanup();
@@ -649,6 +651,7 @@ function init() {
 $(document).ready(function () {
     console.log("initializing ...");
     toggleCss("signedin", false);
+    toggleCss("owner", false);
     updateGrid();
 
     // Enable toggling of landmarks, buildings and grid
@@ -726,6 +729,20 @@ $(document).ready(function () {
     // Fix mortality layer positioning
     $mortality.css({
         position: "absolute"
+    });
+
+    var consoleWindow = null;
+
+    // Initialize console popup
+    $('#openconsole').click(function (evt) {
+        if (consoleWindow) {
+            consoleWindow.focus();
+        } else {
+            consoleWindow = window.open("/console/", "_blank", "width=800,height=600,status=0,toolbar=0,menubar=0,scrollbars=0,location=0");
+            consoleWindow.onbeforeunload = function () { consoleWindow = null; };
+        }
+        evt.preventDefault();
+        return false;
     });
 
     console.log("loading config ...");

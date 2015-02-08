@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Cache.cs" />
+    <Compile Include="src\ConsoleSocket.cs" />
     <Compile Include="src\DataUtil.cs" />
     <Compile Include="src\DeferredRequest.cs" />
     <Compile Include="lib\icsharpcode-SharpZipLib\BZip2\BZip2.cs" />
@@ -216,6 +217,9 @@
   <ItemGroup>
     <None Include="FAQ.md" />
     <Content Include="lib\websocket-sharp\LICENSE.txt" />
+    <Content Include="update.txt" />
+    <Content Include="www\console\index.html" />
+    <Content Include="www\css\console.css" />
     <Content Include="www\css\main.css" />
     <Content Include="www\favicon.ico" />
     <Content Include="www\img\cave.png" />
@@ -229,13 +233,17 @@
     <Content Include="www\img\sits_small.png" />
     <Content Include="www\img\wolf.png" />
     <Content Include="www\index.html" />
+    <Content Include="www\js\console.js" />
     <Content Include="www\js\helpers.js" />
     <Content Include="www\js\i18n.js" />
     <Content Include="www\js\jquery.cookie.min.js" />
     <Content Include="www\js\jquery.min.js" />
     <Content Include="www\js\jquery.notify.min.js" />
     <Content Include="www\js\main.js" />
+    <None Include="make.bat" />
     <None Include="README.md" />
+    <None Include="run.bat" />
+    <None Include="update.bat" />
     <None Include="www\config.sample.json" />
     <None Include="www\i18n\cs.json" />
     <None Include="www\i18n\de.json" />

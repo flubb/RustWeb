@@ -34,6 +34,8 @@ call ccjs build\server\www\js\main.js > build\server\www\js\main.min.js
 move /Y build\server\www\js\main.min.js build\server\www\js\main.js
 call ccjs build\server\www\js\i18n.js > build\server\www\js\i18n.min.js
 move /Y build\server\www\js\i18n.min.js build\server\www\js\i18n.js
+call ccjs build\server\www\js\console.js > build\server\www\js\console.min.js
+move /Y build\server\www\js\console.min.js build\server\www\js\console.js
 
 goto:eof
 ::ERRORS

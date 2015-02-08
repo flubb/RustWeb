@@ -17,6 +17,7 @@
 * Broadcasts death events to ingame chat (optional)
 * Simple web based JSON API to fetch lots of useful game data
 * Ships with a wide range of languages and it's easy to translate on your own
+* Includes a web based RCON console for authorized owners
 
 Usage with your favorite modding framework
 ------------------------------------------
@@ -71,14 +72,20 @@ specifies whether to display buildings to all players, making */buildings.json* 
 * **displayMortality**
 specifies whether to enable the mortality heatmap for all players, making */deaths.json* public.
 
+* **defaultLanguage**
+specifies the default language to use, by language code.
+
 * **welcomeMessage**
 specifies the welcome message displayed in game. Allows placeholders for `{IP}`, `{PORT}` and `{NAME]`. May be set to `null` to disable.
 
 * **broadcastDeaths**
 specifies whether to broadcast death events also in game.
 
-* **defaultLanguage**
-specifies the default language to use, by language code.
+* **friendlyfireOff**
+specifies whether friendly fire shall be disabled (can't hurt friends)
+
+* **ipOverride** and **portOverride**
+specifies an alternative ip and port to bind the webserver to. Uses the server's ip and port if not set.
 
 RCON API
 --------

@@ -17,6 +17,7 @@ xcopy /S /I /Y^
 :: Run the server
 start /D %ServerDir% /wait RustDedicated.exe -batchmode^
  +server.hostname "RustWeb Testserver"^
+ +server.ip "127.0.0.1"^
  +server.port 28015^
  +rcon.password test^
  +server.worldsize 4000^
